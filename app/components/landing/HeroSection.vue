@@ -18,7 +18,7 @@
 
         <div class="flex gap-4">
           <NuxtLink
-            to="/auth/register"
+            :to="startCookingLink"
             class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition"
           >
             Start Cooking
@@ -45,3 +45,14 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+
+const startCookingLink = computed(() => {
+  return authStore.isAuthenticated ? '/dashboard' : '/auth/register'
+})
+</script>
