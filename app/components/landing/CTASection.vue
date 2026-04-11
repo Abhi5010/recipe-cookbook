@@ -2,7 +2,7 @@
   <section class="px-8 py-20">
     <div class="max-w-4xl mx-auto bg-orange-500 text-white rounded-3xl p-10 text-center shadow-xl">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        Ready to build your personal cookbook?
+        {{ ctaTitle }}
       </h2>
 
       <p class="text-lg mb-8 text-orange-100">
@@ -10,11 +10,31 @@
       </p>
 
       <NuxtLink
-        to="/auth/register"
+        :to="ctaLink"
         class="inline-block bg-white text-orange-600 font-semibold px-6 py-3 rounded-lg hover:bg-orange-100 transition"
       >
-        Create Account
+        {{ ctaButtonText }}
       </NuxtLink>
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+const ctaTitle = computed(() => {
+  return authStore.isAuthenticated ? "Welcome back to your kitchen!" : "Ready to build your personal cookbook?"
+})
+
+
+const ctaLink = computed(() => {
+  return authStore.isAuthenticated ? '/dashboard' : '/auth/register'
+})
+
+
+const ctaButtonText = computed(() => {
+  return authStore.isAuthenticated ? "Open My Cookbook" : "Create Account"
+})
+</script>
